@@ -5,6 +5,8 @@ import com.yassine.pfe.service.PlanificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -16,7 +18,12 @@ public class PlanificationController {
     private final PlanificationService planificationService;
 
     @GetMapping
-    public List<Planification> getAll() { return planificationService.getAll(); }
+    public List<Planification> getAll(@RequestParam(required = false) Integer days) {
+        if(days != null)
+        {
+            return planificationService.innext(days);
+        }
+        return planificationService.getAll(); }
 
     @GetMapping("/{id}")
     public ResponseEntity<Planification> getById(@PathVariable Long id) {
@@ -41,4 +48,6 @@ public class PlanificationController {
         planificationService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+
 }

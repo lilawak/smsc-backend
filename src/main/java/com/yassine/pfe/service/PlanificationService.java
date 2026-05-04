@@ -8,6 +8,8 @@ import com.yassine.pfe.repository.PlanificationRepository;
 import com.yassine.pfe.repository.VersionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,5 +66,10 @@ public class PlanificationService {
 
     public void delete(Long id) {
         planificationRepository.deleteById(id);
+    }
+
+    public List<Planification> innext(int days){
+        LocalDate today = LocalDate.now();
+        return planificationRepository.findByDateLivraisonPrevueBetween(today , today.plusDays(days));
     }
 }
